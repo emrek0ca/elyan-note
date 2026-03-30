@@ -1,5 +1,3 @@
-import './styles.css';
-
 const STORAGE_KEY = 'elyan-note-state';
 const app = document.querySelector('#app');
 
