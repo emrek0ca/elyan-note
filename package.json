@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --mac --publish never"
+    "dist": "npm exec electron-builder -- --mac --publish never"
   },
   "dependencies": {
     "electron": "^41.1.0"
@@ -29,6 +29,7 @@
     ],
     "mac": {
       "target": ["dmg"],
+      "identity": null,
       "category": "public.app-category.productivity",
       "artifactName": "${productName}-${version}-${arch}.${ext}"
     }
