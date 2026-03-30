@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -24,36 +26,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Generate Tauri icon asset
-        shell: bash
-        run: |
-          mkdir -p src-tauri/icons/icon.iconset
-          node -e "const fs=require('fs'); const zlib=require('zlib'); function crc32(buf){let c=~0; for (const b of buf){ c ^= b; for (let k=0;k<8;k++) c = (c>>>1) ^ (0xEDB88320 & -(c&1)); } return (~c)>>>0; } function chunk(type,data){ const len=Buffer.alloc(4); len.writeUInt32BE(data.length,0); const t=Buffer.from(type); const crc=Buffer.alloc(4); crc.writeUInt32BE(crc32(Buffer.concat([t,data])),0); return Buffer.concat([len,t,data,crc]); } const w=512,h=512; const rows=[]; for(let y=0;y<h;y++){ const row=Buffer.alloc(1+w*4); row[0]=0; for(let x=0;x<w;x++){ const i=1+x*4; row[i]=124; row[i+1]=92; row[i+2]=255; row[i+3]=255; } rows.push(row);} const raw=Buffer.concat(rows); const ihdr=Buffer.alloc(13); ihdr.writeUInt32BE(w,0); ihdr.writeUInt32BE(h,4); ihdr[8]=8; ihdr[9]=6; ihdr[10]=0; ihdr[11]=0; ihdr[12]=0; const png=Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',ihdr),chunk('IDAT',zlib.deflateSync(raw,{level:9})),chunk('IEND',Buffer.alloc(0))]); fs.writeFileSync('src-tauri/icons/icon.iconset/icon_512x512.png', png);"
-          sips -z 16 16 src-tauri/icons/icon.iconset/icon_512x512.png --out src-tauri/icons/icon.iconset/icon_16x16.png >/dev/null
-          sips -z 32 32 src-tauri/icons/icon.iconset/icon_512x512.png --out src-tauri/icons/icon.iconset/icon_16x16@2x.png >/dev/null
-          sips -z 32 32 src-tauri/icons/icon.iconset/icon_512x512.png --out src-tauri/icons/icon.iconset/icon_32x32.png >/dev/null
-          sips -z 64 64 src-tauri/icons/icon.iconset/icon_512x512.png --out src-tauri/icons/icon.iconset/icon_32x32@2x.png >/dev/null
-          sips -z 128 128 src-tauri/icons/icon.iconset/icon_512x512.png --out src-tauri/icons/icon.iconset/icon_128x128.png >/dev/null
-          sips -z 256 256 src-tauri/icons/icon.iconset/icon_512x512.png --out src-tauri/icons/icon.iconset/icon_128x128@2x.png >/dev/null
-          sips -z 256 256 src-tauri/icons/icon.iconset/icon_512x512.png --out src-tauri/icons/icon.iconset/icon_256x256.png >/dev/null
-          sips -z 512 512 src-tauri/icons/icon.iconset/icon_512x512.png --out src-tauri/icons/icon.iconset/icon_256x256@2x.png >/dev/null
-          iconutil -c icns src-tauri/icons/icon.iconset -o src-tauri/icons/icon.icns
+      - name: Build macOS dmg with electron-builder
+        run: npm run dist
 
-      - name: Compute release tag
-        id: meta
-        shell: bash
-        run: |
-          echo "tag=v0.1.3" >> "$GITHUB_OUTPUT"
-          echo "name=Elyan Note v0.1.3" >> "$GITHUB_OUTPUT"
-
-      - name: Build and attach release assets
-        uses: tauri-apps/tauri-action@v0
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: ${{ steps.meta.outputs.tag }}
-          releaseName: ${{ steps.meta.outputs.name }}
-          releaseBody: |
-            Automated release of Elyan Note.
-          releaseDraft: false
-          prerelease: false
+          tag_name: v0.1.3
+          name: Elyan Note v0.1.3
+          target_commitish: ${{ github.sha }}
+          files: dist/*.dmg
+          generate_release_notes: true
