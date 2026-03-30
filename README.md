@@ -1,6 +1,6 @@
 # Elyan Note
 
-Elyan Note is a sleek desktop note app built with Tauri and vanilla JavaScript.
+Elyan Note is a sleek desktop note app built with Electron and vanilla JavaScript.
 
 ## Features
 - Fast note creation and editing
@@ -13,12 +13,9 @@ Elyan Note is a sleek desktop note app built with Tauri and vanilla JavaScript.
 
 1. Install dependencies
    npm install
-2. Start the web app
-   npm run dev
-3. Launch the desktop shell
-   npm run tauri:dev
+2. Start the desktop app
+   npm start
 
 ## Build
 
-- Web bundle: npm run build
-- Desktop app: npm run tauri:build
+- macOS dmg: npm run dist
