@@ -36,9 +36,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Set up Tauri prerequisites
-        uses: tauri-apps/setup-tauri-action@v0
-
       - name: Generate Tauri icon asset
         shell: bash
         run: |
