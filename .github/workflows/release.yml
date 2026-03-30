@@ -55,9 +55,6 @@ jobs:
             echo "name=Elyan Note ${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Set up Tauri prerequisites
-        uses: tauri-apps/setup-tauri-action@v0
-
       - name: Build and attach release assets
         uses: tauri-apps/tauri-action@v0
         env:
