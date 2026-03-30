@@ -48,4 +48,3 @@ jobs:
             Automated release of Elyan Note.
           releaseDraft: false
           prerelease: false
-          args: '--target universal-apple-darwin'
