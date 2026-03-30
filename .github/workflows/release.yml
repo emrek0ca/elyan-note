@@ -4,25 +4,13 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v*'
 
 permissions:
   contents: write
 
 jobs:
   release:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: ubuntu-22.04
-            args: ''
-          - platform: windows-latest
-            args: ''
-          - platform: macos-latest
-            args: '--target universal-apple-darwin'
-    runs-on: ${{ matrix.platform }}
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repository
@@ -46,13 +34,8 @@ jobs:
         id: meta
         shell: bash
         run: |
-          if [ "${GITHUB_EVENT_NAME}" = "push" ] && [ "${GITHUB_REF_NAME}" = "main" ]; then
-            echo "tag=v0.1.0" >> "$GITHUB_OUTPUT"
-            echo "name=Elyan Note v0.1.0" >> "$GITHUB_OUTPUT"
-          else
-            echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
-            echo "name=Elyan Note ${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
-          fi
+          echo "tag=v0.1.1" >> "$GITHUB_OUTPUT"
+          echo "name=Elyan Note v0.1.1" >> "$GITHUB_OUTPUT"
 
       - name: Build and attach release assets
         uses: tauri-apps/tauri-action@v0
@@ -65,4 +48,4 @@ jobs:
             Automated release of Elyan Note.
           releaseDraft: false
           prerelease: false
-          args: ${{ matrix.args }}
+          args: '--target universal-apple-darwin'
