@@ -7,13 +7,13 @@
   },
   "package": {
     "productName": "Elyan Note",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "tauri": {
     "bundle": {
       "active": true,
-      "identifier": "com.emrek0ca.elyannote",
-      "targets": "all",
+      "identifier": "com.emrek0ca.elyan-note",
+      "targets": ["dmg"],
       "icon": ["icons/icon.png"]
     },
     "windows": [
