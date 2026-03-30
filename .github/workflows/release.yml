@@ -43,8 +43,8 @@ jobs:
         id: meta
         shell: bash
         run: |
-          echo "tag=v0.1.2" >> "$GITHUB_OUTPUT"
-          echo "name=Elyan Note v0.1.2" >> "$GITHUB_OUTPUT"
+          echo "tag=v0.1.3" >> "$GITHUB_OUTPUT"
+          echo "name=Elyan Note v0.1.3" >> "$GITHUB_OUTPUT"
 
       - name: Build and attach release assets
         uses: tauri-apps/tauri-action@v0
