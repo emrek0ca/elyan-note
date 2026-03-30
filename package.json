@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --mac dmg --publish never"
+    "dist": "electron-builder --mac --publish never"
   },
   "dependencies": {
     "electron": "^41.1.0"
