@@ -1,6 +1,6 @@
 [package]
 name = "elyan-note"
-version = "0.1.0"
+version = "0.1.2"
 description = "A sleek note-taking desktop app built with Tauri and JavaScript"
 authors = ["emrek0ca"]
 edition = "2021"
