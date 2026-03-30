@@ -13,7 +13,8 @@
     "bundle": {
       "active": true,
       "identifier": "com.emrek0ca.elyannote",
-      "targets": "all"
+      "targets": "all",
+      "icon": ["icons/icon.png"]
     },
     "windows": [
       {
